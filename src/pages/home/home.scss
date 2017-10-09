@@ -1,3 +1,16 @@
 page-home {
 
 }
+.homepage-content {
+  display: block !important;
+  height: 100%;
+  padding:0px !important;
+  padding-top: 40% !important;
+  text-align: center;
+}
+.homepage-content p {
+  font-size:40px;
+}
+.homepage-buttons {
+  display: block !important;
+}
