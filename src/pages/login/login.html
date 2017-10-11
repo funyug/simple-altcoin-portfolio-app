@@ -14,15 +14,18 @@
 
 
 <ion-content padding>
-  <div class="form">
+  <form name="login_form"  (submit)="login(account)">
+    <div *ngFor="let error of errors.incorrect_login">{{error}}</div>
+    <div *ngFor="let error of errors.email">{{error}}</div>
     <ion-item>
-      <ion-input type="text" placeholder="Email Address"></ion-input>
+      <ion-input type="text" placeholder="Email Address" [(ngModel)]="account.email" name="email"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errors.password">{{error}}</div>
     <ion-item>
-      <ion-input type="text" placeholder="Password"></ion-input>
+      <ion-input type="password" placeholder="Password" [(ngModel)]="account.password" name="password"></ion-input>
     </ion-item>
     <div class="login_button_div center">
       <button ion-button round class="center">Login</button>
     </div>
-  </div>
+  </form>
 </ion-content>
