@@ -15,19 +15,27 @@
 
 <ion-content padding>
 
-  <div class="form">
+  <form (submit)="signup(account)">
+    <div *ngFor="let error of errors.email_exists">{{error}}</div>
+    <div *ngFor="let error of errors.name">{{error}}</div>
     <ion-item>
-      <ion-input type="text" placeholder="Email Address"></ion-input>
+      <ion-input type="text" placeholder="Name" name="name" [(ngModel)]="account.name"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errors.email">{{error}}</div>
     <ion-item>
-      <ion-input type="text" placeholder="Password"></ion-input>
+      <ion-input type="text" placeholder="Email Address" name="email" [(ngModel)]="account.email"></ion-input>
     </ion-item>
+    <div *ngFor="let error of errors.password">{{error}}</div>
     <ion-item>
-      <ion-input type="text" placeholder="Confirm Password"></ion-input>
+      <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="account.password"></ion-input>
+    </ion-item>
+    <div *ngFor="let error of errors.password_confirmation">{{error}}</div>
+    <ion-item>
+      <ion-input type="password" placeholder="Confirm Password" name="password_confirmation" [(ngModel)]="account.password_confirmation"></ion-input>
     </ion-item>
     <div class="signup_button_div center">
       <button ion-button round class="center">Signup</button>
     </div>
-  </div>
+  </form>
 
 </ion-content>
