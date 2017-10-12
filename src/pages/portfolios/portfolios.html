@@ -14,5 +14,13 @@
 
 
 <ion-content padding>
+  <div>
+      <ion-item>
+        <ion-label>Portfolio</ion-label>
+        <ion-select [(ngModel)]="current_portfolio">
+          <ion-option *ngFor="let portfolio of portfolios" value="portfolio.id">{{portfolio.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+  </div>
 
 </ion-content>

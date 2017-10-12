@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import {LoginPage} from "../login/login";
 import {SignupPage} from "../signup/signup";
+import {PortfoliosPage} from "../portfolios/portfolios";
 
 @Component({
   selector: 'page-home',
@@ -16,6 +17,11 @@ export class HomePage {
     this.menu.enable(false);
     this.login = LoginPage;
     this.signup = SignupPage;
+
+    let access_token = localStorage.getItem('access_token');
+    if(access_token != null || access_token !== undefined) {
+      this.navCtrl.setRoot(PortfoliosPage);
+    }
   }
 
   openPage(p) {
