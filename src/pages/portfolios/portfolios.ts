@@ -16,6 +16,8 @@ import {LoginPage} from "../login/login";
 })
 export class PortfoliosPage {
   portfolios : any;
+  active_portfolio : any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public api: Api) {
     this.getPortfolios(localStorage.getItem("access_token"));
   }
@@ -27,6 +29,7 @@ export class PortfoliosPage {
       //
       if (res.success == 1) {
         this.portfolios = res.data;
+        this.changePortfolio(res.data[0].id);
       }
       else {
         this.navCtrl.setRoot(LoginPage);
@@ -36,6 +39,29 @@ export class PortfoliosPage {
     });
 
     return seq;
+  }
+
+  getPortfolio(access_token,id) {
+    let seq = this.api.get('portfolios/'+id+'?access_token='+access_token);
+
+    seq.subscribe((res: any) => {
+      //
+      if (res.success == 1) {
+        this.active_portfolio = res.data;
+      }
+      else {
+        this.navCtrl.setRoot(LoginPage);
+      }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+  }
+
+  changePortfolio(id) {
+    let access_token = localStorage.getItem('access_token');
+    this.getPortfolio(access_token,id);
   }
 
 }
