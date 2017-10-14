@@ -12,6 +12,7 @@ import {LoginPage} from "../pages/login/login";
 import {SignupPage} from "../pages/signup/signup";
 import {PortfoliosPage} from "../pages/portfolios/portfolios";
 import { Api } from '../providers/api/api';
+import {AddCoinPage} from "../pages/add-coin/add-coin";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { Api } from '../providers/api/api';
     HomePage,
     LoginPage,
     SignupPage,
-    PortfoliosPage
+    PortfoliosPage,
+    AddCoinPage
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import { Api } from '../providers/api/api';
     HomePage,
     LoginPage,
     SignupPage,
-    PortfoliosPage
+    PortfoliosPage,
+    AddCoinPage
   ],
   providers: [
     StatusBar,

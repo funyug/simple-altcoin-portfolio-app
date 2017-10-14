@@ -14,7 +14,7 @@
 
 
 <ion-content padding>
-  <div>
+  <div hidden>
       <ion-item>
         <ion-label>Portfolio</ion-label>
         <ion-select [(ngModel)]="current_portfolio" (change)="getPortfolio(current_portfolio.id)">
@@ -27,8 +27,8 @@
       <div class="col">Coin</div>
       <div class="col">Entry Price</div>
       <div class="col">Current Price</div>
-      <div class="col">P\L</div>
-      <div class="col"></div>
+      <div class="col">24H Change</div>
+      <div class="col">P/L</div>
     </div>
     <ng-container *ngIf="active_portfolio">
       <div class="row" *ngFor="let coin of active_portfolio.coins">
@@ -36,7 +36,7 @@
         <div class="col">{{coin.entry_price}}</div>
         <div class="col">{{coin.exchange.current_price}}</div>
         <div class="col"></div>
-        <div class="col"><button class="button">Edit</button></div>
+        <div class="col"></div>
       </div>
     </ng-container>
   </div>

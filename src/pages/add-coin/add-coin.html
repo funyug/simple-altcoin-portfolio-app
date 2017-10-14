@@ -14,12 +14,30 @@
 
 
 <ion-content padding>
-<form>
+<form (submit)="addCoin(user_coin)">
   <ion-item>
     <ion-label>Exchange</ion-label>
-    <ion-select *ngFor="let exchange of exchanges" [(ngModel)]="add_coin.exchange">
-      <ion-option value="exchange.id">{{exchange.name}}</ion-option>
+    <ion-select [(ngModel)]="user_coin.exchange_id" name="exchange_id" (ionChange)="getExchangeCoins()">
+      <ion-option *ngFor="let exchange of exchanges" value="{{exchange.id}}">{{exchange.name}}</ion-option>
     </ion-select>
   </ion-item>
+  <ion-item *ngIf="user_coin.exchange_id">
+    <ion-label>Coin</ion-label>
+    <ion-select [(ngModel)]="user_coin.coin_id" name="coin_id">
+      <ion-option *ngFor="let coin of coins" value="{{coin.id}}">{{coin.name && coin.name != "" ? coin.name : coin.symbol}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-input type="number" placeholder="Entry Price" [(ngModel)]="user_coin.entry_price" name="entry_price"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input type="number" placeholder="Exit Price" [(ngModel)]="user_coin.exit_price" name="exit_price"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input type="number" placeholder="Amount" [(ngModel)]="user_coin.amount" name="amount"></ion-input>
+  </ion-item>
+  <div class="add_coin_button_div center">
+    <button ion-button round class="center">Add</button>
+  </div>
 </form>
 </ion-content>
