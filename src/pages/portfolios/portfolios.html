@@ -32,11 +32,11 @@
     </div>
     <ng-container *ngIf="active_portfolio">
       <div class="row" *ngFor="let coin of active_portfolio.coins">
-        <div class="col">{{coin.symbol}}</div>
+        <div class="col">{{coin.exchange_coin.coin.symbol}}</div>
         <div class="col">{{coin.entry_price}}</div>
-        <div class="col">{{coin.exchange.current_price}}</div>
-        <div class="col"></div>
-        <div class="col"></div>
+        <div class="col">{{coin.exchange_coin.last_price}}</div>
+        <div class="col">{{((coin.exchange_coin.last_price - coin.exchange_coin.price_24h_ago) / coin.exchange_coin.price_24h_ago) * 100 | number}}%</div>
+        <div class="col">{{((coin.exchange_coin.last_price - coin.entry_price) / coin.entry_price) * 100 | number}}%</div>
       </div>
     </ng-container>
   </div>
