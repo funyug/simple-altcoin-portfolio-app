@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {Api} from "../../providers/api/api";
 import {LoginPage} from "../login/login";
+import {AddCoinPage} from "../add-coin/add-coin";
 
 /**
  * Generated class for the PortfoliosPage page.
@@ -17,8 +18,10 @@ import {LoginPage} from "../login/login";
 export class PortfoliosPage {
   portfolios : any;
   active_portfolio : any;
+  add_coin:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public api: Api) {
+    this.add_coin = AddCoinPage;
     this.getPortfolios(localStorage.getItem("access_token"));
   }
 
@@ -62,6 +65,10 @@ export class PortfoliosPage {
   changePortfolio(id) {
     let access_token = localStorage.getItem('access_token');
     this.getPortfolio(access_token,id);
+  }
+
+  openPage(p) {
+    this.navCtrl.push(p);
   }
 
 }

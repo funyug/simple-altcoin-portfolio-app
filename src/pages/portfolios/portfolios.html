@@ -39,6 +39,9 @@
         <div class="col">{{((coin.exchange_coin.last_price - coin.entry_price) / coin.entry_price) * 100 | number}}%</div>
       </div>
     </ng-container>
+    <div class="add_coin_button_div center">
+      <button ion-button round class="center" (click)="openPage(add_coin)">Add</button>
+    </div>
   </div>
 
 </ion-content>
