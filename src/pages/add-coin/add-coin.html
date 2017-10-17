@@ -24,7 +24,7 @@
   <ion-item *ngIf="user_coin.exchange_id">
     <ion-label>Coin</ion-label>
     <ion-select [(ngModel)]="user_coin.coin_id" name="coin_id">
-      <ion-option *ngFor="let coin of coins" value="{{coin.id}}">{{coin.name && coin.name != "" ? coin.name : coin.symbol}}</ion-option>
+      <ion-option *ngFor="let coin of coins" value="{{coin.id}}">{{coin.text}}</ion-option>
     </ion-select>
   </ion-item>
   <ion-item>
