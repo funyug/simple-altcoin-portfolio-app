@@ -19,10 +19,15 @@ export class PortfoliosPage {
   portfolios : any;
   active_portfolio : any;
   add_coin:any;
+  btc_prices:any = [];
+  portfolio_value:any;
+  selected_currency:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public api: Api) {
     this.add_coin = AddCoinPage;
+    this.selected_currency = localStorage.getItem("currency") ? localStorage.getItem("currency") : "INR";
     this.getPortfolios(localStorage.getItem("access_token"));
+    this.getBTCPrice();
   }
 
   getPortfolios(access_token) {
@@ -51,6 +56,7 @@ export class PortfoliosPage {
       //
       if (res.success == 1) {
         this.active_portfolio = res.data;
+        this.getTotalPortfolioValue();
       }
       else {
         this.navCtrl.setRoot(LoginPage);
@@ -69,6 +75,65 @@ export class PortfoliosPage {
 
   openPage(p) {
     this.navCtrl.push(p);
+  }
+
+  getBTCPrice() {
+    let access_token = localStorage.getItem('access_token');
+    let seq = this.api.get('coins/btc?access_token='+access_token);
+
+    seq.subscribe((res: any) => {
+      if (res.success == 1) {
+        this.btc_prices =  res.data.currencies;
+      }
+      else {
+        this.navCtrl.setRoot(LoginPage);
+      }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+  }
+
+  getBTCValue(amount,currency) {
+    let price;
+    if(currency && currency !== undefined && currency !== "BTC") {
+      price = this.btc_prices.filter(function(value) {
+        if(value.text == currency+"-BTC") {
+          return value;
+        }
+      })[0].avg_price;
+    }
+    else if(currency == "BTC") {
+      price = 1;
+      return price * amount;
+    }
+    return amount/price;
+  }
+
+  getTotalPortfolioValue() {
+    let total_btc = 0;
+    let price;
+    let coins = this.active_portfolio.coins;
+    for(let i = 0;i<coins.length;i++) {
+      total_btc = total_btc + (this.getBTCValue(coins[i].sum_amount * coins[i].exchange_coin.last_price,coins[i].exchange_coin.currency.currency_code));
+    }
+    let selected_currency = this.selected_currency;
+    if(selected_currency && selected_currency !== undefined) {
+       price = this.btc_prices.filter(function(value) {
+        if(value.text == selected_currency+"-BTC") {
+          return value;
+        }
+      })[0].avg_price;
+    }
+    else {
+       price = this.btc_prices.filter(function(value) {
+        if(value.text == "USD-BTC") {
+          return value;
+        }
+      })[0].avg_price;
+    }
+    this.portfolio_value = total_btc * price;
   }
 
 }

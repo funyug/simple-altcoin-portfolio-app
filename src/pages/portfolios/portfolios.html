@@ -23,22 +23,20 @@
       </ion-item>
   </div>
   <div>
-    Total Portfolio Value :
+    Total Portfolio Value : {{portfolio_value}} {{selected_currency}}
   </div>
   <div>
     <div class="row header">
       <div class="col">Coin</div>
-      <div class="col">Entry Price</div>
       <div class="col">Current Price</div>
-      <div class="col">24H Change</div>
+      <div class="col">Value</div>
       <div class="col">P/L</div>
     </div>
     <ng-container *ngIf="active_portfolio">
       <div class="row" *ngFor="let coin of active_portfolio.coins">
         <div class="col">{{coin.exchange_coin.coin.symbol}}</div>
-        <div class="col">{{coin.entry_price}}</div>
         <div class="col">{{coin.exchange_coin.last_price}}</div>
-        <div class="col">{{((coin.exchange_coin.last_price - coin.exchange_coin.price_24h_ago) / coin.exchange_coin.price_24h_ago) * 100 | number}}%</div>
+        <div class="col">{{coin.exchange_coin.last_price * coin.sum_amount | number}} {{coin.exchange_coin.currency.currency_code}}</div>
         <div class="col">{{((coin.exchange_coin.last_price - coin.entry_price) / coin.entry_price) * 100 | number}}%</div>
       </div>
     </ng-container>
