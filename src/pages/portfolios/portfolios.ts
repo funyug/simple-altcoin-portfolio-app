@@ -95,8 +95,10 @@ export class PortfoliosPage {
     return seq;
   }
 
-  getBTCValue(amount,currency) {
+  getBTCValue(amount,currency,selected_currency) {
     let price;
+    let currency_multiple;
+    //Checks if the coin is altcoin or bitcoin, if bitcoin assign price 1, if altcoin find the btc value
     if(currency && currency !== undefined && currency !== "BTC") {
       price = this.btc_prices.filter(function(value) {
         if(value.text == currency+"-BTC") {
@@ -106,34 +108,32 @@ export class PortfoliosPage {
     }
     else if(currency == "BTC") {
       price = 1;
-      return price * amount;
     }
-    return amount/price;
-  }
-
-  getTotalPortfolioValue() {
-    let total_btc = 0;
-    let price;
-    let coins = this.active_portfolio.coins;
-    for(let i = 0;i<coins.length;i++) {
-      total_btc = total_btc + (this.getBTCValue(coins[i].sum_amount * coins[i].exchange_coin.last_price,coins[i].exchange_coin.currency.currency_code));
-    }
-    let selected_currency = this.selected_currency;
+    //Finds if the selected currency == currency of coin, if it is dont take the average price
     if(selected_currency && selected_currency !== undefined) {
-       price = this.btc_prices.filter(function(value) {
+      currency_multiple = this.btc_prices.filter(function(value) {
         if(value.text == selected_currency+"-BTC") {
           return value;
         }
       })[0].avg_price;
     }
-    else {
-       price = this.btc_prices.filter(function(value) {
-        if(value.text == "USD-BTC") {
-          return value;
-        }
-      })[0].avg_price;
+    if(selected_currency == currency) {
+      return amount;
     }
-    this.portfolio_value = total_btc * price;
+    else {
+      console.log(this.btc_prices);
+      return (amount/price) * currency_multiple;
+    }
+  }
+
+  getTotalPortfolioValue() {
+    let total_btc = 0;
+    let coins = this.active_portfolio.coins;
+    for(let i = 0;i<coins.length;i++) {
+      total_btc = total_btc + (this.getBTCValue(coins[i].sum_amount * coins[i].exchange_coin.last_price,coins[i].exchange_coin.currency.currency_code,this.selected_currency));
+    }
+
+    this.portfolio_value = total_btc;
   }
 
 }
