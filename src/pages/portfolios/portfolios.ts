@@ -121,7 +121,6 @@ export class PortfoliosPage {
       return amount;
     }
     else {
-      console.log(this.btc_prices);
       return (amount/price) * currency_multiple;
     }
   }
