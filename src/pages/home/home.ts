@@ -19,7 +19,7 @@ export class HomePage {
     this.signup = SignupPage;
 
     let access_token = localStorage.getItem('access_token');
-    if(access_token != null || access_token !== undefined) {
+    if(access_token && access_token !== undefined) {
       this.navCtrl.setRoot(PortfoliosPage);
     }
   }

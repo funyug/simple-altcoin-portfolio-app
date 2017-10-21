@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {NavController, NavParams, Platform} from 'ionic-angular';
 import {Api} from "../../providers/api/api";
 import 'rxjs/add/operator/toPromise';
 import {PortfoliosPage} from "../portfolios/portfolios";
+import {Push, PushObject, PushOptions} from "@ionic-native/push";
 /**
  * Generated class for the LoginPage page.
  *
@@ -30,11 +31,41 @@ export class LoginPage {
     incorrect_login:[]
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public api: Api) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public api: Api, public push:Push, public platform: Platform) {
   }
 
   login() {
-    let seq = this.api.post('login', this.account);
+    if (this.platform.is('cordova')) {
+      this.push.hasPermission()
+        .then((res: any) => {
+
+          if (res.isEnabled) {
+            console.log('We have permission to send push notifications');
+          } else {
+            console.log('We do not have permission to send push notifications');
+          }
+
+        });
+
+      const options: PushOptions = {
+        android: {},
+        ios: {
+          alert: 'true',
+          badge: true,
+          sound: 'false'
+        },
+        windows: {},
+        browser: {
+          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+        }
+      };
+
+      const pushObject: PushObject = this.push.init(options);
+
+      pushObject.on('registration').subscribe((registration: any) => this.account.device_id = registration.registrationId);
+    }
+
+      let seq = this.api.post('login', this.account);
 
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in

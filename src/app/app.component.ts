@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import {Push, PushObject, PushOptions} from "@ionic-native/push";
 
 @Component({
   templateUrl: 'app.html'
@@ -15,9 +16,41 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public push:Push) {
     this.initializeApp();
 
+    if (this.platform.is('cordova')) {
+      this.push.hasPermission()
+        .then((res: any) => {
+
+          if (res.isEnabled) {
+            console.log('We have permission to send push notifications');
+          } else {
+            console.log('We do not have permission to send push notifications');
+          }
+
+        });
+
+      const options: PushOptions = {
+        android: {},
+        ios: {
+          alert: 'true',
+          badge: true,
+          sound: 'false'
+        },
+        windows: {},
+        browser: {
+          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+        }
+      };
+
+      const pushObject: PushObject = this.push.init(options);
+
+      pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+
+      pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+
+    }
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage }

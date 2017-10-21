@@ -13,6 +13,7 @@ import {SignupPage} from "../pages/signup/signup";
 import {PortfoliosPage} from "../pages/portfolios/portfolios";
 import { Api } from '../providers/api/api';
 import {AddCoinPage} from "../pages/add-coin/add-coin";
+import {Push} from "@ionic-native/push";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {AddCoinPage} from "../pages/add-coin/add-coin";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Api
+    Api,
+    Push
   ]
 })
 export class AppModule {}
