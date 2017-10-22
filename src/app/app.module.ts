@@ -14,6 +14,7 @@ import {PortfoliosPage} from "../pages/portfolios/portfolios";
 import { Api } from '../providers/api/api';
 import {AddCoinPage} from "../pages/add-coin/add-coin";
 import {Push} from "@ionic-native/push";
+import {CoinPage} from "../pages/coin/coin";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {Push} from "@ionic-native/push";
     LoginPage,
     SignupPage,
     PortfoliosPage,
-    AddCoinPage
+    AddCoinPage,
+    CoinPage
   ],
   imports: [
     BrowserModule,
@@ -36,7 +38,8 @@ import {Push} from "@ionic-native/push";
     LoginPage,
     SignupPage,
     PortfoliosPage,
-    AddCoinPage
+    AddCoinPage,
+    CoinPage
   ],
   providers: [
     StatusBar,

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams, Platform} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {PortfoliosPage} from "../portfolios/portfolios";
 import {Api} from "../../providers/api/api";
-import {Push, PushObject, PushOptions} from "@ionic-native/push";
 
 /**
  * Generated class for the SignupPage page.
@@ -37,39 +36,11 @@ export class SignupPage {
     password_confirmation:[]
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public api:Api, public push:Push, public platform:Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public api:Api) {
   }
 
   signup() {
-    if (this.platform.is('cordova')) {
-      this.push.hasPermission()
-        .then((res: any) => {
-
-          if (res.isEnabled) {
-            console.log('We have permission to send push notifications');
-          } else {
-            console.log('We do not have permission to send push notifications');
-          }
-
-        });
-
-      const options: PushOptions = {
-        android: {},
-        ios: {
-          alert: 'true',
-          badge: true,
-          sound: 'false'
-        },
-        windows: {},
-        browser: {
-          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-        }
-      };
-
-      const pushObject: PushObject = this.push.init(options);
-
-      pushObject.on('registration').subscribe((registration: any) => this.account.device_id = registration.registrationId);
-    }
+    this.account.device_id = localStorage.getItem('device_id');
     let seq = this.api.post('signup', this.account);
 
     seq.subscribe((res: any) => {
